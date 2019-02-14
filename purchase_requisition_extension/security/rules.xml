@@ -5,7 +5,7 @@
 		<record model="ir.rule" id="purchase_request_user_rule">
 	        <field name="name">Voir mes propres fiches</field>
 	        <field name="model_id" ref="model_purchase_request"/>
-			<field name="domain_force">[('create_uid', '=', user.id)]</field>
+			<field name="domain_force">[('initiateur_id', '=', user.id)]</field>
 	        <field name="groups" eval="[(4, ref('group_atc_user'))]"/>
 	    </record>
 
