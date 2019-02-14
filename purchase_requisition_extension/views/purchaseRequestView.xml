@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- gestion des type de demande d'achat -->
+        <record id="purchase_request_type_tree_view" model="ir.ui.view">
+            <field name="name">purchase.request.type form_view</field>
+            <field name="model">purchase.request.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="type" />
+                    <field name="amount_max" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchase_request_type_form_view" model="ir.ui.view">
+            <field name="name">purchase.request.type form_view</field>
+            <field name="model">purchase.request.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="type" />
+                            </group>
+                            <group>
+                                <field name="amount_max" />
+                            </group>
+                        </group>
+                        <notebook >
+                            <page string="Desription">
+                                <field name="description" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_purchase_request_type_tree_view" model="ir.actions.act_window">
+            <field name="name">Types d'expressions de besoin</field>
+			<field name="res_model">purchase.request.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="purchase_requisition_type_expression" name="Types d'expressions de besoin" parent="purchase_requiesition_config_menu"
+                  action="action_purchase_request_type_tree_view" />
+
+
+        <!-- gestion des expressions de besoins -->
+        <record id="purchase_request_tree_view" model="ir.ui.view">
+            <field name="name">purchase.request tree_view</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="user_id" />
+                    <field name="department_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchase_request_form_view" model="ir.ui.view">
+            <field name="name">purchase.request form_view</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header >
+                        <button name="action_submit" type="object" class="oe_highlight" string="Soumettre" states="draft" />
+                        <button name="action_dsc" type="object" class="oe_highlight" string="Valider" states="dsc"
+                                groups="purchase_requisition_extension.group_atc_dsc"/>
+                        <button name="action_refus" type="object" class="oe_highlight" string="REFUSER" states="dsc"
+                                groups="purchase_requisition_extension.group_atc_dsc"/>
+                        <button name="action_rh" type="object" class="oe_highlight" string="Valider" states="rh"
+                                groups="purchase_requisition_extension.group_atc_rh"/>
+                        <button name="action_refus" type="object" class="oe_highlight" string="REFUSER" states="rh"
+                                groups="purchase_requisition_extension.group_atc_rh"/>
+                        <button name="action_operation" type="object" class="oe_highlight" string="Valider" states="operation"
+                                groups="purchase_requisition_extension.group_atc_operation"/>
+                        <button name="action_refus" type="object" class="oe_highlight" string="REFUSER" states="operation"
+                                groups="purchase_requisition_extension.group_atc_operation"/>
+                        <button name="action_direction" type="object" class="oe_highlight" string="Valider" states="direction"
+                                groups="purchase_requisition_extension.group_atc_direction"/>
+                        <button name="action_refus" type="object" class="oe_highlight" string="REFUSER" states="direction"
+                                groups="purchase_requisition_extension.group_atc_direction"/>
+                        <button name="action_draft" type="object" class="oe_highlight" string="Mettre en brouillon" states="refus"
+                                groups="purchase_requisition_extension.group_atc_user,purchase_requisition_extension.group_atc_dsc"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done" readonly="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label" string="Request for Quotation " attrs="{'invisible': [('state','not in',('draft','sent'))]}"/>
+                            <span class="o_form_label" string="Purchase Order " attrs="{'invisible': [('state','in',('draft','sent'))]}"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="initiateur_id" readonly="1"/>
+                                <field name="employee_id" />
+                                <field name="job_id" />
+                                <field name="department_id" />
+                                <field name="date" />
+                                <field name="deadline" />
+
+                            </group>
+                            <group>
+                                <field name="type_id" options="{ 'no_create_edit': True }"/>
+                                <field name="type" invisible="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lignes">
+                                <field name="line_ids">
+                                    <tree editable="top">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="partner_id" />
+                                        <field name="section_id" />
+                                        <field name="sous_section_id"/>
+                                        <field name="analytic_account_id" />
+                                        <field name="quantity" />
+                                        <field name="available_qty" />
+                                        <field name="price_unit" />
+                                        <field name="tax_id" />
+                                        <field name="subtotal" />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+	                                <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	                                <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+	                                <div class="oe_subtotal_footer_separator oe_inline">
+	                                    <label for="amount_total"/>
+	                                    <button name="button_dummy" states="draft" string="(update)" type="object" class="oe_edit_only oe_link"/>
+	                                </div>
+	                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" />
+                            	</group>
+                                <field name="justification" class="oe_inline" placeholder="Justification..."/>
+								<div class="oe_clear"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_request">
+			<field name="name">Expression de besoin</field>
+			<field name="res_model">purchase.request</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+             	<p class="oe_view_nocontent_create">Exprimez votre premier besoin ici. Ce besoin sera soumis à un processus
+             	de validation avec des notifications d'alerte mail sur le retour de la demande.</p>
+             </field>
+		</record>
+
+        <menuitem id="expression_besoin" name="Demandes"
+		    parent="expression_besoin_menu" action="action_request" sequence="1"/>
+
+
+
+    </data>
+</odoo>

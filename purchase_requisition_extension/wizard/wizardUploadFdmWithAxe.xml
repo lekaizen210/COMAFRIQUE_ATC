@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Wizard wizard_upload_fdmwithaxe.py -->
+		<record id="wizard_form_view_wizard_upload_fdmwithaxe" model="ir.ui.view">
+            <field name="name">purchase.request.margin.upload.fdmwithaxe.wizard.form.view</field>
+            <field name="model">purchase.request.margin.upload.fdmwithaxe.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Uploader un fichier">
+                    <group>
+                        <field name="data_file_excel_fdm_axe"/>
+                    </group>
+                    <footer>
+                        <button name="uploadFileExcelFdm" type="object"
+                                string="Valider" class="oe_highlight"/>
+                        ou
+                        <button special="cancel" string="Annuler"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- <act_window id="launch_wizard_wizardUploadFdmWithAxe"
+                    name="Upload FDM avec axes"
+                    src_model="purchase.request.margin"
+                    res_model="purchase.request.margin.upload.fdmwithaxe.wizard"
+                    view_mode="form"
+                    target="new"
+                    key2="client_action_multi"/> -->
+
+        <record id="action_launch_wizard_wizard_upload_fdmwithaxe" model="ir.actions.act_window">
+            <field name="name">Charger un fichier FDM</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.request.margin.upload.fdmwithaxe.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_form_view_wizard_upload_fdmwithaxe"/>
+            <field name="target">new</field>
+        </record>
+        <!-- Wizard wizard_upload_fdmwithaxe.py -->
+
+    </data>
+</odoo>

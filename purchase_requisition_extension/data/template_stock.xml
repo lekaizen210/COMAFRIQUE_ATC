@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    <!-- Template de mail pour validation de fiche de marge-->
+
+        <record id="responsible_email_template_send" model="mail.template">
+            <field name="name">Notification des fiches d'inventaire</field>
+            <field name="email_from">${(user.email or'')|safe }</field>
+            <field name="email_to">${(object.mail_destination or '')|safe}</field>
+            <field name="subject">Traitement Bons de sorite/entrée - ${object.name}</field>
+            <!-- <field name="email_recipients">${object.user_id.id}</field> -->
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.create_uid.lang}</field>
+            <field name="body_html"><![CDATA[
+            <p>Cher Mr/Mme,</p>
+			<p>Votre approbation est requise afin de proceder à l'exécution du bon ${object.name}. </p>
+
+			<div style="width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;">
+		        <h3 style="margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;">
+		            <strong style="text-transform:uppercase;">${object.name}</strong></h3>
+		    </div>
+
+			<div style="width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;">
+				<span style="color: #222; margin-bottom: 5px; display: block; ">
+
+					<p><b>Parténaire : </b>${object.partner_id.name}</p>
+					<p><b>Date : </b>${object.min_date}</p>
+
+
+				</span>
+			</div>
+            <br/>
+            <br/>
+			<p>Cordialement.</p>
+            ]]></field>
+        </record>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem name="Expressions de besoins" id="purchase_requisition_main_menu"
+                  web_icon="purchase_requisition_extension,static/description/icon.png"/>
+
+        <menuitem id="expression_besoin_menu" name="Expressions de besoin"
+		    parent="purchase_requisition_main_menu"/>
+
+        <menuitem name="Configurations" parent="purchase_requisition_main_menu" sequence='100'
+                  id="purchase_requiesition_config_menu"/>
+    </data>
+</odoo>
